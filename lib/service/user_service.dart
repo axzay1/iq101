@@ -13,9 +13,9 @@ import '../shared_prefs.dart';
 
 
 class UserService {
-  static const String baseUrl =  'http://34.212.238.163:6000/api';
+  // static const String baseUrl =  'http://34.212.238.163:6000/api';
   // static const String baseUrl =  'http://127.0.0.1:5000/api';
-
+  static const String baseUrl =  'http://10.0.2.2:5000/api';
   Future<void> login(BuildContext context, String? email) async {
 
 

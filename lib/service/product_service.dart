@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:iq101/main.dart';
+import 'package:iq101/model/category_model.dart';
 import 'package:iq101/model/product_model.dart';
 import 'package:iq101/providers/product_provider.dart';
 import 'package:provider/provider.dart';
@@ -12,9 +13,23 @@ import '../model/user_model.dart';
 
 
 class ProductService {
-  // static const String baseUrl = 'http://10.0.2.2:5000/api';
-  //   String baseUrl =  'http://127.0.0.1:5000/api';
-   static const String baseUrl =  'http://34.212.238.163:6000/api';
+  static const String baseUrl = 'http://10.0.2.2:5000/api';
+  //   static const String baseUrl =  'http://127.0.0.1:5000/api';
+   // static const String baseUrl =  'http://34.212.238.163:6000/api';
+
+  Future<List<CategoryModel>> getAllCategory() async {
+    await Future.delayed(const Duration(seconds: 3));
+    final response = await http.get(Uri.parse('$baseUrl/getcategories'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonData = jsonDecode(response.body)['categories'];
+      print(jsonData);
+
+      return jsonData.map((category) => CategoryModel.fromJson(category)).toList();
+    } else {
+      throw Exception('Failed to load products');
+    }
+  }
 
   Future<List<ProductModel>> getAllProducts() async {
     await Future.delayed(const Duration(seconds: 3));

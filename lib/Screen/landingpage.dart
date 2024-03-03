@@ -1,9 +1,18 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iq101/Screen/landing_fraction.dart';
+import 'package:iq101/Screen/landing_zoopy.dart';
 import 'package:iq101/main.dart';
+import 'package:iq101/widgets/bid_widget.dart';
+import 'package:iq101/widgets/design_elements/oval_clay_morphism.dart';
+import 'package:iq101/widgets/design_elements/red_dot.dart';
+import 'package:iq101/widgets/explore_widget.dart';
+import 'package:iq101/widgets/gender_category_widget.dart';
+import 'package:iq101/widgets/marketing_slider.dart';
+import 'package:iq101/widgets/swipe_up_animation.dart';
 import 'package:provider/provider.dart';
-
+import 'package:tiktoklikescroller/tiktoklikescroller.dart';
 
 import '../providers/auth_provider.dart';
 import '../providers/favorite_provider.dart';
@@ -23,73 +32,30 @@ class LandingPage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-
-
   @override
   State<LandingPage> createState() => _LandingPageState();
 }
 
 class _LandingPageState extends State<LandingPage> {
+  ScrollController scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        backgroundColor: Colors.black,
-        title:   Text(
-          "HOOD STREETWEAR CO.",
-          // style: TextStyle(
-          //     color: Color(0xFF00ff28), fontSize: 25, fontWeight: FontWeight.bold),
-          style: GoogleFonts.rubikSprayPaint(color: Colors.white)
-        ),
-
-      ),
-      backgroundColor: Colors.black,
-      body:Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            CarouselSlider(
-              options: CarouselOptions(
-                height: MediaQuery.of(context).size.height * 0.5,
-                aspectRatio: 1,
-                viewportFraction: 0.8,
-                enableInfiniteScroll: true,
-                reverse: false,
-                autoPlay: true,
-                autoPlayInterval:
-                const Duration(seconds: 3),
-                autoPlayAnimationDuration:
-                const Duration(milliseconds: 800),
-                autoPlayCurve: Curves.fastOutSlowIn,
-                enlargeCenterPage: true,
-                scrollDirection: Axis.horizontal,
-                enlargeFactor: 1.8
-              ),
-              items: const [
-                  Image(image: AssetImage('assets/images/skate.jpg')),
-                Image(image: AssetImage('assets/images/hoodie.jpg')),
-                 Image(image: AssetImage('assets/images/cap.jpg'))
-              ]
-            ),
-            InkWell(
-              onTap: () async {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) =>  Cap()));
-              },
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(25),
-                  border: Border.all(color: const Color(0xFFDAEE01))
-                ),
-                child: Text('Shop Now', style: GoogleFonts.oswald(color: const Color(0xFFDAEE01), fontSize: 25),)
-              ),
-            )
-          ],
-        ),
+      body: TikTokStyleFullPageScroller(
+        contentSize: 4,
+        builder: (context, index) {
+          if (index == 0) {
+            return const LandingZoopy();
+          } else {
+            return ExploreWidget(index: index);
+          }
+        },
       ),
     );
   }
